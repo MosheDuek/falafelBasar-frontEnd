@@ -1,0 +1,22 @@
+.card {
+      backdrop-filter: blur(9px) saturate(200%) !important;
+    -webkit-backdrop-filter: blur(9px) saturate(200%) !important;
+    background-color: rgba(0, 0, 0, 0.94) !important;
+    color: rgb(255, 255, 255);
+    height: 100% !important;
+    box-shadow: 0 0 4px 0px white;
+}
+.card .row .col-md-4{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pointer{
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 576px){
+  .card .text-start{
+    text-align: right !important;
+  }
+}

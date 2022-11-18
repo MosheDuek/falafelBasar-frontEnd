@@ -1,0 +1,3 @@
+.menucol:nth-child(1n+5){
+    display: none;
+}

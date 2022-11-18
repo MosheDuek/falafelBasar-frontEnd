@@ -1,0 +1,16 @@
+.nav-tabs .active{
+background-color: #f5d540 !important;
+color: black !important;
+}
+.nav-tabs .nav-link{
+    color: white;
+}
+.nav-tabs .nav-link:hover{
+    color: #f5d540;
+    scale: 1;
+}
+@media only screen and (max-width: 576px){
+  .nav-tabs{
+    padding-right: 0.5rem;
+  }
+}
