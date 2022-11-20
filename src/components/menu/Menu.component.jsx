@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { customerActions } from "../../store/customer";
 import Product from "../product/Product.component";
+import SearchBar from "../searchBar/SearchBar.component";
 
 const Menu = () => {
   const dispatch = useDispatch();
@@ -105,6 +106,7 @@ const Menu = () => {
 
   return (
     <Fragment>
+      <SearchBar/>
       {data &&
         data.map((product, idx) => (
           <div
