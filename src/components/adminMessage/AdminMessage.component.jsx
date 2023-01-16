@@ -1,16 +1,28 @@
 import axios from "axios";
 import { useEffect } from "react";
-import { Fragment } from "react"
+import { Fragment } from "react";
 
-const AdminMessage = ({ idmessages, name, email, phone_number, subject, message, onclose,onRead }) => {
-    const handleClick = ()=>{
-        onclose()
-    }
-    useEffect(()=>{
-      axios.put(`/messages/${idmessages}`)
-      .then(()=>{onRead(idmessages)})
-      .catch(()=>{})
-    },[])
+const AdminMessage = ({
+  idmessages,
+  name,
+  email,
+  phone_number,
+  subject,
+  message,
+  onclose,
+  onRead,
+}) => {
+  const handleClick = () => {
+    onclose();
+  };
+  useEffect(() => {
+    axios
+      .put(`/messages/${idmessages}`)
+      .then(() => {
+        onRead(idmessages);
+      })
+      .catch(() => {});
+  }, []);
   return (
     <Fragment>
       <div className="custom-fixed bg-dark">
@@ -33,11 +45,7 @@ const AdminMessage = ({ idmessages, name, email, phone_number, subject, message,
               >
                 {phone_number}
               </a>
-              <a
-                href={`mailto:${email}`}
-                target="_blank"
-                className="card-link"
-              >
+              <a href={`mailto:${email}`} target="_blank" className="card-link">
                 {email}
               </a>
             </div>
@@ -47,4 +55,4 @@ const AdminMessage = ({ idmessages, name, email, phone_number, subject, message,
     </Fragment>
   );
 };
-export default AdminMessage
+export default AdminMessage;

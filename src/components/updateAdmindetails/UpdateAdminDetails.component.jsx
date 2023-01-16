@@ -1,14 +1,22 @@
 import { useState } from "react";
 import { Fragment } from "react";
+import { useSelector } from "react-redux";
+import Loading from "../loading/Loading.component";
 import Joi from "joi-browser";
-import contuctUsSchema from "../../validation/contuctUs.validation";
-import axios from "axios";
+import updateAdminSchema from "../../validation/updateAdmin.validation";
 import { toast } from "react-toastify";
+import axios from "axios";
+import useAfterLogin from "../../hooks/useAfterLogin";
 
-const ContuctUsForm = () => {
-  const [data, setData] = useState({});
-  const [error, setError] = useState(false);
-
+const UpdateAdminDetails = () => {
+  const [loading, setLoading] = useState(false);
+  const userData = useSelector((state) => state.auth.userData);
+  const [data, setData] = useState({
+    name: userData.name,
+    email: userData.email,
+    phoneNumber: userData.phoneNumber,
+  });
+  const afterUpdate = useAfterLogin();
   const handleNameChange = (ev) => {
     setData({ ...data, name: ev.target.value });
   };
@@ -18,39 +26,35 @@ const ContuctUsForm = () => {
   const handlePhoneNumberchange = (ev) => {
     setData({ ...data, phoneNumber: ev.target.value });
   };
-  const handleSubjectChange = (ev) => {
-    setData({ ...data, subject: ev.target.value });
-  };
-  const handleMessageChange = (ev) => {
-    setData({ ...data, message: ev.target.value });
-  };
 
   const handleSubmit = (ev) => {
     ev.preventDefault();
-    setError(false);
-
-    const validatedValue = Joi.validate(data, contuctUsSchema, {
+    setLoading(true);
+    const validateValue = Joi.validate(data, updateAdminSchema, {
       abortEarly: false,
     });
-
-    if (!validatedValue.error) {
+    if (validateValue.error) {
+      setLoading(false);
+      toast.error("אחד הערכים שגוי");
+    } else {
       axios
-        .post("/messages", data)
-        .then(() => {
-          toast.success("ההודעה נשלחה בהצלחה");
-          setData({});
+        .put("/admin/update-details", data)
+        .then(({ data }) => {
+          setLoading(false);
+          toast.success("פרטים עודכנו בהצלחה");
+          afterUpdate(data.token);
         })
         .catch(() => {
-          toast.error("משהו השתבש");
+          setLoading(false);
+          toast.error("משהו השתבש. שים לב כי כל הפרטים נכונים");
         });
-    } else {
-      setError(true);
     }
   };
 
   return (
     <Fragment>
-      <form onSubmit={handleSubmit}>
+      <h1 className="my-3 text-center">עדכון פרטים אישיים</h1>
+      <form className="container" onSubmit={handleSubmit}>
         <div className="row row-cols-1 row-cols-md-2">
           <div className="col">
             <div className="mb-3">
@@ -62,7 +66,7 @@ const ContuctUsForm = () => {
                 className="form-control"
                 id="exampleFormControlInput1"
                 placeholder="שם פרטי"
-                value={data.hasOwnProperty("name") ? data.name : ""}
+                value={data.hasOwnProperty("name") ? data.name : userData.name}
                 onChange={handleNameChange}
               />
               {data.hasOwnProperty("name") && data.name.length < 2 && (
@@ -80,7 +84,9 @@ const ContuctUsForm = () => {
                 className="form-control"
                 id="exampleFormControlInput2"
                 placeholder="name@example.com"
-                value={data.hasOwnProperty("email") ? data.email : ""}
+                value={
+                  data.hasOwnProperty("email") ? data.email : userData.email
+                }
                 onChange={handleEmailchange}
               />
               {data.hasOwnProperty("email") &&
@@ -102,7 +108,9 @@ const ContuctUsForm = () => {
                 id="exampleFormControlInput3"
                 placeholder="052-345-6789"
                 value={
-                  data.hasOwnProperty("phoneNumber") ? data.phoneNumber : ""
+                  data.hasOwnProperty("phoneNumber")
+                    ? data.phoneNumber
+                    : userData.phoneNumber
                 }
                 onChange={handlePhoneNumberchange}
               />
@@ -114,52 +122,12 @@ const ContuctUsForm = () => {
                 )}
             </div>
           </div>
-          <div className="col">
-            <div className="mb-3">
-              <label htmlFor="exampleFormControlInput4" className="form-label">
-                על מה נדבר:
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="exampleFormControlInput4"
-                placeholder="לדוגמה: הזמנה לאירוע"
-                value={data.hasOwnProperty("subject") ? data.subject : ""}
-                onChange={handleSubjectChange}
-              />
-              {data.hasOwnProperty("subject") && data.subject.length < 2 && (
-                <div className="text-danger">חייב להיות לפחות 2 תווים</div>
-              )}
-            </div>
-          </div>
-          <div className="col">
-            <div className="mb-3">
-              <label
-                htmlFor="exampleFormControlTextarea1"
-                className="form-label"
-              >
-                תוכן ההודעה:
-              </label>
-              <textarea
-                className="form-control"
-                id="exampleFormControlTextarea1"
-                rows="3"
-                value={data.hasOwnProperty("message") ? data.message : ""}
-                onChange={handleMessageChange}
-              ></textarea>
-              {data.hasOwnProperty("message") && data.message.length > 1000 && (
-                <div className="text-danger">מקסימום 1000 תווים</div>
-              )}
-            </div>
-          </div>
         </div>
-        <button className="btn btn-outline-warning m-auto d-block w-50">
-          שלח
+        <button type="submit" className="btn btn-warning d-block w-50 m-auto">
+          {loading ? <Loading /> : "עדכן"}
         </button>
       </form>
-      {error && <div className="text-danger">אחד הערכים שגוי</div>}
     </Fragment>
   );
 };
-
-export default ContuctUsForm;
+export default UpdateAdminDetails;

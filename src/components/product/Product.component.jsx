@@ -3,19 +3,28 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Fragment } from "react";
 import "./product.css";
 
-const Product = ({ name, short_description, img_link, price, idproducts, onSetFavor, onUnsetFavor , onOpenProduct ,favorite}) => {
+const Product = ({
+  name,
+  short_description,
+  img_link,
+  price,
+  idproducts,
+  onSetFavor,
+  onUnsetFavor,
+  onOpenProduct,
+  favorite,
+}) => {
   const handleClick = () => {
-    onOpenProduct(idproducts)
+    onOpenProduct(idproducts);
   };
-  
-  const handleFavor = ()=>{
-    if(favorite){
-      onUnsetFavor(idproducts)
+
+  const handleFavor = () => {
+    if (favorite) {
+      onUnsetFavor(idproducts);
+    } else {
+      onSetFavor(idproducts);
     }
-    else{
-      onSetFavor(idproducts)
-    }
-  }
+  };
 
   return (
     <Fragment>
@@ -23,8 +32,8 @@ const Product = ({ name, short_description, img_link, price, idproducts, onSetFa
         <div className="row g-0">
           <div className="col-md-4">
             <img
-              src={`http://localhost:3001/imgs/product/${img_link}`}
-              className="img-fluid rounded-start"
+              src={`${process.env.REACT_APP_DOMAIN}/imgs/product/${img_link}`}
+              className="img-fluid shadow-filter responsive-round"
               alt={name}
             />
           </div>
@@ -48,7 +57,9 @@ const Product = ({ name, short_description, img_link, price, idproducts, onSetFa
               </button>
               <FontAwesomeIcon
                 icon={faStar}
-                className={`pointer  me-3 ${favorite?'text-warning':'text-secondary'}`}
+                className={`pointer  me-1 ${
+                  favorite ? "text-warning" : "text-secondary"
+                }`}
                 onClick={handleFavor}
               />
             </div>

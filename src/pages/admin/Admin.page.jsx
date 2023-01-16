@@ -8,17 +8,31 @@ import useAfterLogin from "../../hooks/useAfterLogin";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLayoutEffect } from "react";
 const Admin = () => {
   const [data, setData] = useState({});
   const [error, setError] = useState(null);
-   const adminLoggedIn = useSelector((state) => state.auth.loggedIn);
-   const navigate = useNavigate()
+  const adminLoggedIn = useSelector((state) => state.auth.loggedIn);
+  const navigate = useNavigate();
   const afterLogin = useAfterLogin();
-  useEffect(()=>{
-    if(adminLoggedIn){
-      navigate("/admin/dashboard")
+  useLayoutEffect(() => {
+    axios
+      .get("/admin/check-admin")
+      .then(({ data }) => {
+        if (!data.admin) {
+          navigate("/create-admin");
+        }
+      })
+      .catch(() => {
+        navigate("/");
+      });
+  }, []);
+
+  useEffect(() => {
+    if (adminLoggedIn) {
+      navigate("/admin/dashboard");
     }
-  },[adminLoggedIn])
+  }, [adminLoggedIn]);
 
   const handleEmailChange = (e) => {
     setData({ ...data, email: e.target.value });
@@ -46,6 +60,10 @@ const Admin = () => {
     }
   };
 
+  const forgotPassword = () => {
+    navigate("/forgot-password");
+  };
+
   return (
     <Fragment>
       <PageTitle title="התחברות מנהל" />
@@ -59,10 +77,8 @@ const Admin = () => {
                 className="form-control"
                 id="floatingInput"
                 placeholder="name@example.com"
-                control-id="ControlID-1"
                 value={data.hasOwnProperty("email") ? data.email : ""}
                 onChange={handleEmailChange}
-                autoComplete="false"
               />
               <label htmlFor="floatingInput">שם משתמש</label>
             </div>
@@ -72,15 +88,16 @@ const Admin = () => {
                 className="form-control"
                 id="floatingPassword"
                 placeholder="Password"
-                control-id="ControlID-2"
-                value={data.hasOwnProperty("password") ? data.password :""}
+                value={data.hasOwnProperty("password") ? data.password : ""}
                 onChange={handlePasswordChange}
-                autoComplete="false"
               />
               <label htmlFor="floatingPassword">סיסמה</label>
             </div>
             <button type="submit" className="w-100 btn btn-warning">
               התחבר
+            </button>
+            <button className="btn btn-link" onClick={forgotPassword}>
+              שכחתי סיסמה
             </button>
             {error && <span className="text-danger mb-3">{error}</span>}
           </form>

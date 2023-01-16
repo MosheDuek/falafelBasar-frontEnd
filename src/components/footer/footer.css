@@ -1,8 +1,8 @@
-.active{
-    color: #f5d540 !important;
+.active {
+  color: #f5d540 !important;
 }
-footer .nav .nav-link{
-    color: white;
+footer .nav .nav-link {
+  color: white;
 }
 
 @media screen and (min-width: 990px) {

@@ -1,5 +1,3 @@
-//! create forgot password page
-
 import { Fragment } from "react";
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -19,10 +17,13 @@ import AdminEditOrCreateProduct from "./components/adminEditOrCreateProduct/Admi
 import AdminAutoLogIn from "./components/adminAutoLogIn/AdminAutoLogIn.component";
 import PageNotFount from "./pages/404/404.page";
 import ContactUs from "./pages/contactUs/ContactUs.page";
+import ForgotPassword from "./pages/forgotPassword/ForgotPassword.page";
+import RecoveryPassword from "./pages/recoveryPassword/RecoveryPassword.page";
+import CreateAdmin from "./pages/createAdmin/CreateAdmin.page";
 function App() {
   return (
     <Fragment>
-      <AdminAutoLogIn/>
+      <AdminAutoLogIn />
       <ToastContainer />
       <div className="App">
         <NavBar />
@@ -33,8 +34,15 @@ function App() {
           <Route path="/מועדפים" element={<Favorites />} />
           <Route path="/מה-הקונספט" element={<AboutUs />} />
           <Route path="/תפריט" element={<PageMenu />} />
-          <Route path="/צור-קשר" element={<ContactUs/>}/>
+          <Route path="/צור-קשר" element={<ContactUs />} />
+          <Route path="/create-admin" element={<CreateAdmin />} />
           <Route exact path="/admin" element={<Admin />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route
+            path="recovery-password/:secret/:iv/:data"
+            exact
+            element={<RecoveryPassword />}
+          />
           <Route
             path="/admin/dashboard"
             element={
@@ -91,8 +99,16 @@ function App() {
               </AuthGuard>
             }
           />
-          <Route path="/404" element={<PageNotFount/>}/>
-          <Route path="*" element={<PageNotFount/>}/>
+          <Route
+            path="/admin/dashboard/private-details"
+            element={
+              <AuthGuard>
+                <DashboardNavBar />
+              </AuthGuard>
+            }
+          />
+          <Route path="/404" element={<PageNotFount />} />
+          <Route path="*" element={<PageNotFount />} />
         </Routes>
       </div>
       <Footer />

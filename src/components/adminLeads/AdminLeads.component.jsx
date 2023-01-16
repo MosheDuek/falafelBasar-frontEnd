@@ -7,7 +7,7 @@ import ConfirmDelete from "../confirmDelete/ConfirmDelete.component";
 
 const AdminLeads = () => {
   const [data, setData] = useState([]);
-  const [confirmDelete,setConfirmDelete] = useState(null)
+  const [confirmDelete, setConfirmDelete] = useState(null);
   useEffect(() => {
     axios
       .get("/leads")
@@ -17,28 +17,29 @@ const AdminLeads = () => {
       .catch(() => {
         toast.error("משהו השתבש");
       });
-  },[]);
+  }, []);
 
-  const confirmDeleteLead = (obj)=>{
-    setConfirmDelete(obj)
-  }
-  const cancelDelete = ()=>{
-    setConfirmDelete(null)
-  }
-  const deleteLead = (id)=>{
-    axios.delete(`/leads/${id}`)
-    .then(()=>{
-        setConfirmDelete(null)
-        toast.done("נמחק בהצלחה")
-        let d = [...data]
+  const confirmDeleteLead = (obj) => {
+    setConfirmDelete(obj);
+  };
+  const cancelDelete = () => {
+    setConfirmDelete(null);
+  };
+  const deleteLead = (id) => {
+    axios
+      .delete(`/leads/${id}`)
+      .then(() => {
+        setConfirmDelete(null);
+        toast.done("נמחק בהצלחה");
+        let d = [...data];
         d = d.filter((lead) => lead.idleads !== id);
-        setData(d)
-    })
-    .catch(()=>{
-        setConfirmDelete(null)
-        toast.error("משהו השתבש")
-    })
-  }
+        setData(d);
+      })
+      .catch(() => {
+        setConfirmDelete(null);
+        toast.error("משהו השתבש");
+      });
+  };
   return (
     <Fragment>
       <div className="container">

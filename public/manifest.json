@@ -1,6 +1,6 @@
 {
-  "short_name": "פלאפל בשר",
-  "name": "פלאפל בשר - איך לא חשבו על זה קודם",
+  "short_name": "React App",
+  "name": "Create React App Sample",
   "icons": [
     {
       "src": "favicon.ico",

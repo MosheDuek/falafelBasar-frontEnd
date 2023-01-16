@@ -9,19 +9,11 @@ const emailRole = {
 const phoneNumberRole = {
   phoneNumber: Joi.string().min(9).max(15).trim().required(),
 };
-const messageRole = {
-  message: Joi.string().min(5).max(1000).required(),
-};
-const subjectRole = {
-  subject: Joi.string().min(2).max(50).required(),
-};
 
-const contuctUsSchema = {
+const updateAdminSchema = {
   ...nameRole,
   ...emailRole,
   ...phoneNumberRole,
-  ...messageRole,
-  ...subjectRole,
 };
 
-export default contuctUsSchema;
+export default updateAdminSchema;

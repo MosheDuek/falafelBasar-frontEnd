@@ -1,4 +1,4 @@
-import "./adminEditOrCreateProduct.css"
+import "./adminEditOrCreateProduct.css";
 import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -11,87 +11,89 @@ import { toast } from "react-toastify";
 
 const AdminEditOrCreateProduct = () => {
   const params = useParams();
-  const [axiosData,setAxiosData] = useState({})
+  const [axiosData, setAxiosData] = useState({});
   const [data, setData] = useState({});
   useEffect(() => {
-    if(params){
-    axios
-      .get(`/products/${params.id}`)
-      .then(({ data }) => {
-        setAxiosData(data[0]);
-        setData({name:data[0].name,description:data[0].description,price:data[0].price,shortDescription:data[0].short_description})
-      })
-      .catch((e) => {
-        toast.error("משהו השתבש")
-      });
+    if (params.id) {
+      axios
+        .get(`/products/${params.id}`)
+        .then(({ data }) => {
+          setAxiosData(data[0]);
+          setData({
+            name: data[0].name,
+            description: data[0].description,
+            price: data[0].price,
+            shortDescription: data[0].short_description,
+          });
+        })
+        .catch((e) => {
+          toast.error("משהו השתבש");
+        });
     }
   }, []);
 
-  const handleNameChange = (ev)=>{
-      let d = {...data}
-        setData({...d,name:ev.target.value})
-    }
-    const handleShortDescriptionChange = (ev)=>{
-        let d = {...data}
-        setData({...d, shortDescription:ev.target.value})
-    }
-    const handleDescriptionchange = (ev)=>{
-        let d = {...data}
-        setData({...d, description:ev.target.value})
-    }
-    const handlePriceChange = (ev)=>{
-        let d = {...data}
-        setData({...d, price:ev.target.value})
-    }
-    const handleImgChange = (ev)=>{
-        setAxiosData({img_link:ev.target.files[0]})
-    }
+  const handleNameChange = (ev) => {
+    let d = { ...data };
+    setData({ ...d, name: ev.target.value });
+  };
+  const handleShortDescriptionChange = (ev) => {
+    let d = { ...data };
+    setData({ ...d, shortDescription: ev.target.value });
+  };
+  const handleDescriptionchange = (ev) => {
+    let d = { ...data };
+    setData({ ...d, description: ev.target.value });
+  };
+  const handlePriceChange = (ev) => {
+    let d = { ...data };
+    setData({ ...d, price: ev.target.value });
+  };
+  const handleImgChange = (ev) => {
+    setAxiosData({ img_link: ev.target.files[0] });
+  };
 
-    const handleSubmit = (ev)=>{
-      ev.preventDefault()
-      const validatedValue = Joi.validate(data, productSchema, {
-        abortEarly: false,
-      });
-if(validatedValue.error){
-    toast.error("אחד הערכים לא תקין")
-}
-else{
+  const handleSubmit = (ev) => {
+    ev.preventDefault();
+    const validatedValue = Joi.validate(data, productSchema, {
+      abortEarly: false,
+    });
+    if (validatedValue.error) {
+      toast.error("אחד הערכים לא תקין");
+    } else {
       if (!params.hasOwnProperty("id") && !axiosData.img_link) {
         toast.error("חייב להוסיף תמונה למוצר");
-    } else {
-          const formData = new FormData();
-          formData.append("name", data.name);
-          formData.append("description", data.description);
-          formData.append("shortDescription", data.shortDescription);
-          formData.append("price", data.price);
-          formData.append("prudImg", axiosData.img_link);
-  
-          if (params.hasOwnProperty("id")) {
-            axios
-              .put(`/products/${params.id}`, formData)
-              .then(() => {
-                toast.done("הועלה בהצלחה");
-                window.history.back()
-              })
-              .catch(() => {
-                toast.error("משהו השתבש");
-              });
-          } else {
-            axios
-              .post("/products", formData)
-              .then(() => {
-                toast.done("הועלה בהצלחה");
-                window.history.back()
-              })
-              .catch(() => {
-                toast.error("משהו השתבש");
-              });
-          }
-        
-      }
-}
+      } else {
+        const formData = new FormData();
+        formData.append("name", data.name);
+        formData.append("description", data.description);
+        formData.append("shortDescription", data.shortDescription);
+        formData.append("price", data.price);
+        formData.append("prudImg", axiosData.img_link);
 
+        if (params.hasOwnProperty("id")) {
+          axios
+            .put(`/products/${params.id}`, formData)
+            .then(() => {
+              toast.done("הועלה בהצלחה");
+              window.history.back();
+            })
+            .catch(() => {
+              toast.error("משהו השתבש");
+            });
+        } else {
+          axios
+            .post("/products", formData)
+            .then(() => {
+              toast.done("הועלה בהצלחה");
+              window.history.back();
+            })
+            .catch(() => {
+              toast.error("משהו השתבש");
+            });
+        }
+      }
     }
+  };
 
   return (
     <Fragment>
@@ -115,7 +117,7 @@ else{
                   className="form-control"
                   id="exampleFormControlInput1"
                   placeholder="פלאפל בשר"
-                  value={data.hasOwnProperty("name") && data.name}
+                  value={data.name}
                   onChange={handleNameChange}
                 ></input>
                 {data.hasOwnProperty("name") && data.name.length < 2 && (
@@ -138,10 +140,7 @@ else{
                   className="form-control"
                   id="exampleFormControlTextarea1"
                   rows="2"
-                  value={
-                    data.hasOwnProperty("shortDescription") &&
-                    data.shortDescription
-                  }
+                  value={data.shortDescription}
                   onChange={handleShortDescriptionChange}
                 ></textarea>
                 {data.hasOwnProperty("shortDescription") &&
@@ -168,7 +167,7 @@ else{
                   className="form-control"
                   id="exampleFormControlTextarea2"
                   rows="6"
-                  value={data.hasOwnProperty("description") && data.description}
+                  value={data.description}
                   onChange={handleDescriptionchange}
                 ></textarea>
                 {data.hasOwnProperty("description") &&
@@ -196,7 +195,7 @@ else{
                   className="form-control price"
                   id="exampleFormControlInput1"
                   placeholder="20₪"
-                  value={data.hasOwnProperty("price") && data.price}
+                  value={data.price}
                   onChange={handlePriceChange}
                 ></input>
                 {data.hasOwnProperty("price") && data.price < 0 && (

@@ -13,12 +13,11 @@ const priceRole = {
   price: Joi.number().min(Number.MIN_VALUE).max(10000).required(),
 };
 
- 
 const productSchema = {
-    ...nameRole,
-    ...descriptionRole,
-    ...shortDescriptionRole,
-    ...priceRole,
-}
+  ...nameRole,
+  ...descriptionRole,
+  ...shortDescriptionRole,
+  ...priceRole,
+};
 
-export default productSchema
+export default productSchema;

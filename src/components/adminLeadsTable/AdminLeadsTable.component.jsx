@@ -1,7 +1,6 @@
-const AdminLeadsTable = ({ idleads,name, email, phone_number, onDelete }) => {
-
+const AdminLeadsTable = ({ idleads, name, email, phone_number, onDelete }) => {
   const deleteLead = () => {
-    onDelete({id:idleads,name:name});
+    onDelete({ id: idleads, name: name });
   };
 
   return (
@@ -18,4 +17,4 @@ const AdminLeadsTable = ({ idleads,name, email, phone_number, onDelete }) => {
   );
 };
 
-export default AdminLeadsTable
+export default AdminLeadsTable;

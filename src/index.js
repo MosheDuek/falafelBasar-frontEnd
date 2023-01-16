@@ -10,7 +10,7 @@ import "../node_modules/bootstrap/dist/js/bootstrap.bundle.js";
 import { Provider } from 'react-redux';
 import store from './store/index';
 
-axios.defaults.baseURL = 'http://localhost:3001/api' ;
+axios.defaults.baseURL = `${process.env.REACT_APP_DOMAIN}/api` ;
 axios.interceptors.request.use((config)=>{
   const token = localStorage.getItem("google-token")
   if(token){
@@ -24,13 +24,13 @@ axios.interceptors.request.use((config)=>{
 })
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  // <React.StrictMode>
+  <React.StrictMode>
   <Provider store={store}>
     <BrowserRouter>
       <App />
     </BrowserRouter>
   </Provider>
-  // </React.StrictMode>
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

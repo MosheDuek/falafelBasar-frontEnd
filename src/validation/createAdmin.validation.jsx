@@ -9,19 +9,21 @@ const emailRole = {
 const phoneNumberRole = {
   phoneNumber: Joi.string().min(9).max(15).trim().required(),
 };
-const messageRole = {
-  message: Joi.string().min(5).max(1000).required(),
-};
-const subjectRole = {
-  subject: Joi.string().min(2).max(50).required(),
+const passwordRole = {
+  password: Joi.string()
+    .regex(
+      new RegExp(
+        "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*() ]).{6,12}$"
+      )
+    )
+    .required(),
 };
 
-const contuctUsSchema = {
+const signUpSchema = {
   ...nameRole,
   ...emailRole,
   ...phoneNumberRole,
-  ...messageRole,
-  ...subjectRole,
+  ...passwordRole,
 };
 
-export default contuctUsSchema;
+export default signUpSchema;

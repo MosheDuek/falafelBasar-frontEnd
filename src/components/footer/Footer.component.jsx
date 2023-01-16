@@ -90,12 +90,14 @@ const Footer = () => {
               </div>
               <div className="mt-1">
                 <div className="h3">נווט אלינו</div>
-                <a href="https://goo.gl/maps/rU2ATcfGTf152o2V7" target="_blank"><FontAwesomeIcon icon={faLocationArrow}/> אשתאול 14 חולון</a>
+                <a href="https://goo.gl/maps/rU2ATcfGTf152o2V7" target="_blank">
+                  <FontAwesomeIcon icon={faLocationArrow} /> אשתאול 14 חולון
+                </a>
               </div>
             </div>
             <div className="col">
               <div className="h3">צור קשר</div>
-              <ContuctUsForm/>
+              <ContuctUsForm />
             </div>
           </div>
         </footer>

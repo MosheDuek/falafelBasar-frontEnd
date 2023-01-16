@@ -1,8 +1,8 @@
-body{
-    background-color: rgb(33, 37, 41) !important;
-    color: white !important;
+body {
+  background-color: rgb(33, 37, 41) !important;
+  color: white !important;
 }
 @font-face {
-    font-family: karatina-regular;
-    src: url(../src/font/Karantina-Regular.ttf);
+  font-family: karatina-regular;
+  src: url(../src/font/Karantina-Regular.ttf);
 }

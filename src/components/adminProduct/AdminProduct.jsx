@@ -10,25 +10,24 @@ const AdminProduct = ({
   short_description,
   onEdit,
   onDelete,
-  onOpenProduct
+  onOpenProduct,
 }) => {
-
-    const handleClick = (ev)=>{
-        onOpenProduct(idproducts)
-    }
-    const handleDeleteClick = (ev)=>{
-         ev.stopPropagation();
-         onDelete({id:idproducts,name})
-    }
-    const handleEditClick = (ev)=>{
-         ev.stopPropagation();
-         onEdit(idproducts)
-    }
+  const handleClick = (ev) => {
+    onOpenProduct(idproducts);
+  };
+  const handleDeleteClick = (ev) => {
+    ev.stopPropagation();
+    onDelete({ id: idproducts, name });
+  };
+  const handleEditClick = (ev) => {
+    ev.stopPropagation();
+    onEdit(idproducts);
+  };
   return (
     <Fragment>
       <div className="card pointer" onClick={handleClick}>
         <img
-          src={`http://localhost:3001/imgs/product/${img_link}`}
+          src={`${process.env.REACT_APP_DOMAIN}/imgs/product/${img_link}`}
           className="card-img-top"
           alt={name}
         />
@@ -64,4 +63,4 @@ const AdminProduct = ({
   );
 };
 
-export default AdminProduct
+export default AdminProduct;

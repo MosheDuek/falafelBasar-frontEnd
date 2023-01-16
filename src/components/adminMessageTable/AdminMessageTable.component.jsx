@@ -6,9 +6,8 @@ const AdminMessageTable = ({
   subject,
   message,
   onShow,
-  watched
+  watched,
 }) => {
-
   const showMessage = () => {
     onShow({ idmessages, name, email, phone_number, subject, message });
   };
@@ -24,7 +23,7 @@ const AdminMessageTable = ({
           הצג
         </button>
       </th>
-      <th>{watched === 1 ?"נקרא":"לא נקרא"}</th>
+      <th>{watched === 1 ? "נקרא" : "לא נקרא"}</th>
     </tr>
   );
 };
